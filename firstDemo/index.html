@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+</head>
+
+<body>
+    <div id="contain"></div>
+    <script type="text/jsx">
+        var TestClickComponent=React.createClass({
+            btnClick:function(event){
+                var tipE=React.findDOMNode(this.refs.tip);
+                if(tipE.style.display ==='none'){
+                    tipE.style.display ='inline' ;
+                }else{
+                    tipE.style.display ='none'; 
+                }
+                event.stopPropagation();
+            },
+            render:function(){
+                return(
+                    <div>
+                        <button onClick={this.btnClick}>显示隐藏</button><span ref="tip">hello word</span>
+                    </div>
+                );
+            }
+        });
+        var TestInputComponent=React.createClass({
+            getInitialState:function(){
+                return{
+                    inputContent:''
+                }
+                  
+            },
+            render:function(){
+                return(
+                    <div>
+                        <input type="text" /><span>{this.state.inputContent}</span>
+                    </div>
+                  
+                );
+            }
+        });
+        React.render(<div>
+            <TestClickComponent/>
+            <br/><br/>
+            <TestInputComponent/>
+        </div>
+            ,document.getElementById('contain'));
+    </script>
+</body>
+
+</html>
