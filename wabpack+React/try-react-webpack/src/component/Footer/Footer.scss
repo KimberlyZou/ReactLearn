@@ -1,3 +1,21 @@
-.container {
+.footer {
+  width: 100%;
+  height: 45px;
+  background: #000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  color: #fff;
   
+}
+.windowsLogo{
+  width: 30px;
+  height: 30px;
+  margin: {
+    left: 20px;
+    top: 8px;
+  }
+  background:url(../../../public/asset/windows.png) no-repeat{
+    size: contain;
+  }
 }

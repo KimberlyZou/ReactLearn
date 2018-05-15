@@ -1,12 +1,14 @@
 import React from 'react'
-import styles from './Footer.scss'
+import './Footer.scss'
 class Footer extends React.Component{
-  constructor(props){
-    super(props)
-  }
+  // constructor(props){
+  //   super(props)
+  // }
   render(){
     return (
-      <div className={styles.container}>Footer</div>
+      <div className='footer'>
+          <div className='windowsLogo'></div>
+      </div>
     )
   }
 }

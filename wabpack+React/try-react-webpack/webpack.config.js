@@ -1,61 +1,20 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const fs = require('fs');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config')
+var isProd = (process.env.NODE_ENV === 'production');
 
-function getBootstraprcCustomLocation() {
-  return process.env.BOOTSTRAPRC_LOCATION;
-}
-
-const bootstraprcCustomLocation = getBootstraprcCustomLocation();
-
-let defaultBootstraprcFileExists;
-
-try {
-  fs.statSync('./.bootstraprc');
-  defaultBootstraprcFileExists = true;
-} catch (e) {
-  defaultBootstraprcFileExists = false;
-}
-
-if (!bootstraprcCustomLocation && !defaultBootstraprcFileExists) {
-  /* eslint no-console: 0 */
-  console.log('You did not specify a \'bootstraprc-location\' ' +
-    'arg or a ./.bootstraprc file in the root.');
-  console.log('Using the bootstrap-loader default configuration.');
-}
-
-// DEV and PROD have slightly different configurations
-let bootstrapDevEntryPoint;
-if (bootstraprcCustomLocation) {
-  bootstrapDevEntryPoint = 'bootstrap-loader/lib/bootstrap.loader?' +
-    `configFilePath=${__dirname}/${bootstraprcCustomLocation}` +
-    '!bootstrap-loader/no-op.js';
-} else {
-  bootstrapDevEntryPoint = 'bootstrap-loader';
-}
-
-let bootstrapProdEntryPoint;
-if (bootstraprcCustomLocation) {
-  bootstrapProdEntryPoint = 'bootstrap-loader/lib/bootstrap.loader?extractStyles' +
-    `&configFilePath=${__dirname}/${bootstraprcCustomLocation}` +
-    '!bootstrap-loader/no-op.js';
-} else {
-  bootstrapProdEntryPoint = 'bootstrap-loader/extractStyles';
-}
-
-
+var bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
 let pathsToClean = [
     'dist',
-]
+];
 
 module.exports = {
-    dev: bootstrapDevEntryPoint,
-    prod: bootstrapProdEntryPoint,
     entry: {
         "app.bundle": './src/index.js',
         // 这行是新增的。
         // "content": './src/webpack-page/content.js'
+        "bootstrap": bootstrapConfig
     },
     devServer: {
         port: 8081,
@@ -65,7 +24,7 @@ module.exports = {
         path: __dirname + '/dist',
         // filename: 'app.bundle.js'
     },
-    resolve: { 
+    resolve: {
         extensions: ['.js', '.json', '.jsx']
     },
 
@@ -93,7 +52,7 @@ module.exports = {
         filename: '[name].css',
         disable: !isProd,
         publicPath: 'css/'
-      }),
+    }),
     ],
     module: {
         rules: [
@@ -127,8 +86,8 @@ module.exports = {
                 }],
             },
             { test: /\.(woff2?|svg)$/, loader: 'url-loader?limit=10000&name=[name].[ext]&outputPath=fonts/' },
-{ test: /\.(ttf|eot)$/, loader: 'file-loader?name=[name].[ext]&outputPath=fonts/' },
-            { test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/, loader: 'imports-loader?jQuery=jquery' },
+            { test: /\.(ttf|eot)$/, loader: 'file-loader?name=[name].[ext]&outputPath=fonts/' },
+            { test: /bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/, loader: 'imports-loader?jQuery=jquery' },
         ],
 
 

@@ -1,0 +1,23 @@
+.loginBg{
+  background:rgba($color: #fff, $alpha: .6);
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  
+}
+.loginContent{
+    background: #fff;
+    width: 50%;
+    height: 50%;
+    padding:5%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 13;
+    border-radius: 5px;
+}
