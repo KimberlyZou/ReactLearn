@@ -22,28 +22,41 @@ class Login extends React.Component {
       }
     }
   }
+  // componentWillUnmount() {
+  //   // clearTimeout(this.timeoutId)
+  // }
   loginClick() {
     
     this.setState({
       show: 'none'
     })
   }
-  //此处有bug...
+  //此处有bug...(已解决)
   handleFormChange(filed, value) {
     const newChangeobj = { value, valid:true, error:'' }
-    
-    
+    const change=()=>{
+      if(this.state.username.valid===true&&this.state.password.valid===true){
+        this.setState({
+          btnDisable:false
+        })
+      }else{
+        this.setState({
+          btnDisable:true
+        })
+      }
+    }
     switch (filed) {
       case 'username': {
         if (value.length === 0) {
           newChangeobj.error = '用户名不能为空';
           newChangeobj.valid = false;
         }else{
-          newChangeobj.valid==true
+          newChangeobj.valid=true
         }
+       
         this.setState({
           username:newChangeobj
-        })
+        },change)
         break;
       }
       case 'password': {
@@ -51,24 +64,28 @@ class Login extends React.Component {
           newChangeobj.error = '密码不能为空';
           newChangeobj.valid = false;
         }else{
-          newChangeobj.valid==true
+          newChangeobj.valid=true
         }
+        
         this.setState({
           password:newChangeobj
-        })
+        },change)
         break;
       }
     }
-    if(this.state.username.valid==true&&this.state.password.valid){
-      this.setState({
-        btnDisable:false
-      })
-    }else{
-      this.setState({
-        btnDisable:true
-      })
-    }
-    console.log(JSON.stringify(this.state.username),JSON.stringify(this.state.password))
+    // this.timeoutId = setTimeout(() => {
+    //   if(this.state.username.valid===true&&this.state.password.valid===true){
+    //     this.setState({
+    //       btnDisable:false
+    //     })
+    //   }else{
+    //     this.setState({
+    //       btnDisable:true
+    //     })
+    //   }
+    // }, 0)
+    
+    // console.log(JSON.stringify(this.state.username),JSON.stringify(this.state.password))
     // alert(this.state.btnDisable)
   }
   render() {
@@ -82,7 +99,7 @@ class Login extends React.Component {
             用户名
           </Col>
           <Col sm={10}>
-            <FormControl type="text" value={username.value} placeholder="Username" onChange={(e) => this.handleFormChange('username', e.target.value)} />
+            <FormControl type="text" value={username.value} placeholder="Username" id='username' onChange={(e) => this.handleFormChange('username', e.target.value)} />
             <div className='validMessage'> {!username.valid && <p>{username.error}</p>}</div>
           </Col>
         
